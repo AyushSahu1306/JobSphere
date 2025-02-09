@@ -236,44 +236,63 @@ const CompanyProfile = () => {
   return (
     <div className="container mx-auto p-5">
       <div className="">
-        <div className="w-full flex flex-col md:flex-row gap-3 justify-between">
-          <h2 className="text-gray-600 text-xl font-semibold">
+
+        <div className="w-full flex flex-col md:flex-row gap-3 justify-between items-center">
+          <h2 className="text-purple-800 text-4xl font-semibold mx-auto pt-2">
             Welcome, {info?.name}
           </h2>
           {user?.user?.accountType === undefined && info?._id === user?._id && (
-            <div className="flex items-center justify-center py-5 md:py-0 gap-4">
+            <div className="flex items-center justify-center py-5 md:py-0 gap-4 px-4">
               <CustomButton
                 onClick={() => setOpenForm(true)}
                 iconRight={<FiEdit3 />}
-                containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-blue-600 hover:bg-blue-700 text-white rounded text-sm md:text-base border border-blue-600`}
+                containerStyles={`py-1.5 px-3 md:px-5 focus:outline-none bg-purple-600 hover:bg-purple-700 text-white rounded text-sm md:text-base border border-purple-600`}
               />
 
               <Link to="/upload-job">
                 <CustomButton
                   title="Upload Job"
                   iconRight={<FiUpload />}
-                  containerStyles={`text-blue-600 py-1.5 px-3 md:px-5 focus:outline-none rounded text-sm md:text-base border border-blue-600`}
+                  containerStyles={`text-purple-600 py-1.5 px-3 md:px-5 focus:outline-none rounded text-sm md:text-base border border-purple-600`}
                 />
               </Link>
             </div>
           )}
         </div>
-        <div className="w-full flex flex-col md:flex-row justify-start md:justify-between mt-4 md:mt-8 text-sm">
-          <p className="flex gap-1 items-center   px-3 py-1 text-slate-600 rounded-full">
-            <HiLocationMarker /> {info?.location ?? "No Location"}
-          </p>
-          <p className="flex gap-1 items-center   px-3 py-1 text-slate-600 rounded-full">
-            <AiOutlineMail /> {info?.email ?? "No Email"}
-          </p>
-          <p className="flex gap-1 items-center   px-3 py-1 text-slate-600 rounded-full">
-            <FiPhoneCall /> {info?.contact ?? "No Contact"}
-          </p>
 
-          <div className="flex flex-col items-center mt-10 md:mt-0">
-            <span className="text-xl">{info?.jobPosts?.length}</span>
-            <p className="text-blue-600 ">Job Post(s)</p>
+        <div className="flex justify-around py-10 px-64 h-[200px]">
+
+        <div className="">
+          <img src={user?.profileUrl} className="w-full h-full "></img> 
           </div>
+
+          <div className="w-[50%]  rounded-lg p-5 bg-purple-500 flex flex-col md:flex-row justify-start md:justify-between text-md ">
+
+            <div className="flex flex-col justify-around">
+              <p className="flex gap-1 items-center   px-3 py-1 text-white rounded-full">
+                <HiLocationMarker /> {info?.location ?? "No Location"}
+              </p>
+              <p className="flex gap-1 items-center   px-3 py-1 text-white rounded-full">
+                <AiOutlineMail /> {info?.email ?? "No Email"}
+              </p>
+            </div>
+
+            <div className="flex flex-col justify-around">
+            <p className="flex gap-1 items-center   px-3 py-1 text-white rounded-full">
+              <FiPhoneCall /> {info?.contact ?? "No Contact"}
+            </p>
+
+            <p className="flex gap-1 items-center   px-3 py-1 text-white rounded-full">
+            {info?.jobPosts?.length} Job Post(s)
+            </p>
+
+            </div>
+          </div>
+
+          
         </div>
+
+
       </div>
 
       <div className="w-full mt-20 flex flex-col gap-2">

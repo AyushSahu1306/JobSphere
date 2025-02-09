@@ -118,7 +118,7 @@ const Navbar = () => {
 
         <ul className="hidden lg:flex text-purple-600 gap-10 text-base">
           <li>
-            <Link to="/">Find Job</Link>
+            <Link to="/">{user?.accountType === "seeker" ? "Find Job" : "Home"}</Link>
           </li>
           <li>
             <Link to="/companies">Companies</Link>
