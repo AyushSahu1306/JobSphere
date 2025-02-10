@@ -7,7 +7,6 @@ import {
   Loading,
   TextInput,
 } from "../components";
-import { jobs } from "../utils/data";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
 

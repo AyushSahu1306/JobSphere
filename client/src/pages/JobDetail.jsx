@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Linkedin } from "../assets";
 import moment from "moment";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { jobs } from "../utils/data";
 import { CustomButton, JobCard, Loading } from "../components";
@@ -187,10 +187,13 @@ const JobDetail = () => {
                   onClick={handleDeletePost}
                 />
               ) : (
-                <CustomButton
-                  title="Apply Now"
-                  containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
-                />
+                // <CustomButton
+                //   title="Apply Now"
+                //   containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+                // />
+                <Link to={`/apply-job/${job?._id}`} className="w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base">
+                  Apply Now
+                </Link>
               )}
             </div>
           </div>

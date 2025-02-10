@@ -4,12 +4,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { HiLocationMarker } from "react-icons/hi";
 import { AiOutlineMail } from "react-icons/ai";
-import { FiPhoneCall } from "react-icons/fi";
+import { FiPhoneCall,FiEdit3 } from "react-icons/fi";
 import { CustomButton, Loading, TextInput } from "../components";
 import { NoProfile } from "../assets";
 import { apiRequest, handleFileUpload } from "../utils";
 import { Login } from "../redux/userSlice";
-
+import { IoMdDocument } from "react-icons/io";
 const UserForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
   const {
@@ -29,27 +29,38 @@ const UserForm = ({ open, setOpen }) => {
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
+    const uri = profileImage && (await handleFileUpload(profileImage));
+    const cvUrl = uploadCv && (await handleFileUpload(uploadCv));
+    // const newData = uri ? { ...data, profileUrl: uri } : data;
+    const newData = uri ? { ...data, profileUrl: uri } : data;
+    const finalData = cvUrl ? { ...newData, cvUrl } : newData;
+    
     try {
-      const uri = profileImage && (await handleFileUpload(profileImage));
-      const newData = uri ? { ...data, profileUrl: uri } : data;
 
       const res = await apiRequest({
         url: "/users/update-user",
-        data: newData,
+        data: finalData,
         token: user?.token,
         method: "PUT",
       });
 
       if (res) {
+        console.log("response received",res)
         const newData = { token: res?.token, ...res?.user };
         dispatch(Login(newData));
-        localStorage.setItem("userInfo", JSON.stringify(res));
-        window.location.reload();
+        localStorage.setItem("userInfo", JSON.stringify(newData));
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+
       }
-      setIsSubmitting(false);
+      // setIsSubmitting(false);
     } catch (error) {
-      setIsSubmitting(false);
       console.log(error);
+    }
+    finally{
+      setIsSubmitting(false);
     }
   };
 
@@ -240,12 +251,12 @@ const UserProfile = () => {
   return (
     <div className="container mx-auto flex items-center justify-center py-10">
       <div className="w-full md:w-2/3 2xl:w-2/4 bg-white shadow-lg p-10 pb-20 rounded-lg">
-        <div className="flex flex-col items-center justify-center mb-4">
-          <h1 className="text-4xl font-semibold text-slate-600">
+        <div className="flex flex-col items-center justify-center mb-4 text-purple-700">
+          <h1 className="text-4xl font-semibold">
             {userInfo?.firstName + " " + userInfo?.lastName}
           </h1>
 
-          <h5 className="text-blue-700 text-base font-bold">
+          <h5 className=" text-[#482f51] mt-2 text-base font-bold">
             {userInfo?.jobTitle || "Add Job Title"}
           </h5>
 
@@ -267,28 +278,53 @@ const UserProfile = () => {
         <div className="w-full py-10">
           <div className="w-full flex flex-col-reverse md:flex-row gap-8 py-6">
             <div className="w-full md:w-2/3 flex flex-col gap-4 text-lg text-slate-600 mt-20 md:mt-0">
-              <p className="text-[#0536e7]  font-semibold text-2xl">ABOUT</p>
+              <p className="text-purple-600 font-semibold text-2xl">ABOUT</p>
               <span className="text-base text-justify leading-7">
                 {userInfo?.about ?? "No About Found"}
               </span>
             </div>
 
-            <div className="w-full md:w-1/3 h-44">
+            <div className="w-full md:w-1/3">
+
               <img
                 src={userInfo?.profileUrl || NoProfile}
                 alt={userInfo?.firstName}
                 className="w-full h-48 object-contain rounded-lg"
               />
-              <button
-                className="w-full md:w-64 bg-blue-600 text-white mt-4 py-2 rounded"
-                onClick={() => setOpen(true)}
-              >
-                Edit Profile
+
+                {userInfo.cvUrl ? 
+                <div className="flex justify-centre items-center hover:bg-purple-500 w-full text-center md:w-52 bg-purple-600 text-white mt-4 py-2 px-4 rounded">
+                  <IoMdDocument  className="w-10"/>
+                  <a
+                    href={userInfo?.cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className=""
+                  >
+                    View Resume
+                  </a>
+                  </div>
+                : 
+                  <div className="flex justify-center items-center h-screen">
+                    <p className="text-2xl text-red-500">No Resume Found</p>
+                  </div>
+              }
+              <button className="flex justify-centre items-center hover:bg-purple-500 w-full text-center md:w-52 bg-purple-600 text-white mt-4 py-2 px-4 rounded">
+                <FiEdit3 className="w-10 mx-1"/>
+                <div
+                  onClick={() => setOpen(true)}
+                >
+                  Edit Profile
+                </div> 
               </button>
+              
             </div>
           </div>
         </div>
       </div>
+      
+      
+      
 
       <UserForm open={open} setOpen={setOpen} />
     </div>

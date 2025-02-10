@@ -249,3 +249,41 @@ export const deleteJob = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const applyJob = async(req,res,next) => {
+  try {
+    const { jobId } = req.params;
+    const { name, email, resume } = req.body;
+
+    if (!name || !email || !resume) {
+      next("Please Provide All Required Fields");
+      return;
+    }
+
+    const job = await Jobs.findById(jobId);
+    if (!job) {
+      return res.status(404).send(`No Job with id: ${jobId}`);
+    }
+
+    const application = {
+      name,
+      email,
+      resume,
+      job: jobId,
+    };
+
+    job.application.push(application);
+    await job.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Application Submitted",
+      application,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+  // console.log("Apply Job",req);
+
+}

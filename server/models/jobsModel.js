@@ -1,5 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
+const ApplicationSchema = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  resume: { type: String, required: true },
+},{timestamps:true});
+
 const jobSchema = new mongoose.Schema(
   {
     company: { type: Schema.Types.ObjectId, ref: "Companies" },
@@ -10,7 +16,7 @@ const jobSchema = new mongoose.Schema(
     vacancies: { type: Number },
     experience: { type: Number, default: 0 },
     detail: [{ desc: { type: String }, requirements: { type: String } }],
-    application: [{ type: Schema.Types.ObjectId, ref: "Users" }],
+    application: [ApplicationSchema],
   },
   { timestamps: true }
 );

@@ -11,6 +11,7 @@ export const updateUser = async (req, res, next) => {
     profileUrl,
     jobTitle,
     about,
+    cvUrl
   } = req.body;
 
   try {
@@ -41,6 +42,7 @@ export const updateUser = async (req, res, next) => {
       jobTitle,
       about,
       _id: id,
+      cvUrl
     };
 
     const user = await Users.findByIdAndUpdate(id, updateUser, { new: true });

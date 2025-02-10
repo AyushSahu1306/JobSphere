@@ -31,11 +31,13 @@ const CompanyForm = ({ open, setOpen }) => {
   const [errMsg, setErrMsg] = useState({ status: false });
 
   const onSubmit = async (data) => {
+    console.log("company profile",data);
     setIsLoading(true);
     setErrMsg(null);
     
     const uri = profileImage && (await handleFileUpload(profileImage));
     const newData = uri ? { ...data, profileUrl: uri } : data;
+
     
     try {
       const res = await apiRequest({
@@ -54,10 +56,10 @@ const CompanyForm = ({ open, setOpen }) => {
         dispatch(Login(newData));
         localStorage.setItem("userInfo", JSON.stringify(newData));
 
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1500);
-        closeModal();
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        // closeModal();
       }
     } catch (error) {}
   };
@@ -239,7 +241,7 @@ const CompanyProfile = () => {
 
         <div className="w-full flex flex-col md:flex-row gap-3 justify-between items-center">
           <h2 className="text-purple-800 text-4xl font-semibold mx-auto pt-2">
-            Welcome, {info?.name}
+           {info?.name} 
           </h2>
           {user?.user?.accountType === undefined && info?._id === user?._id && (
             <div className="flex items-center justify-center py-5 md:py-0 gap-4 px-4">
@@ -263,7 +265,7 @@ const CompanyProfile = () => {
         <div className="flex justify-around py-10 px-64 h-[200px]">
 
         <div className="">
-          <img src={user?.profileUrl} className="w-full h-full "></img> 
+          <img src={info?.profileUrl} className="w-full h-full "></img> 
           </div>
 
           <div className="w-[50%]  rounded-lg p-5 bg-purple-500 flex flex-col md:flex-row justify-start md:justify-between text-md ">

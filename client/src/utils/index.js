@@ -7,6 +7,7 @@ export const API = axios.create({
 });
 
 export const apiRequest = async ({ url, token, data, method }) => {
+  // console.log("apiRequest__", url, token, data, method);
   try {
     const result = await API(url, {
       method: method || "GET",
@@ -31,16 +32,16 @@ export const handleFileUpload = async (uploadFile) => {
   const formData = new FormData();
   formData.append("file", uploadFile);
   formData.append("upload_preset", "Project");
-
+  const cloudinary_url = import.meta.env.VITE_CLOUDINARY_URL;
+  console.log(cloudinary_url);
   try {
     const response = await axios.post(
-      CLOUDINARY_URL,
+      cloudinary_url,
       formData
     );
-    console.log(response.data);
     return response.data.secure_url;
   } catch (error) {
-    console.log();
+    console.log("error while uploading on cloudinary", error);
   }
 };
 
