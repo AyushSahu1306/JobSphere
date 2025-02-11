@@ -56,7 +56,7 @@ const Footer = () => {
         <div className='bg-purple-900'>
           <div className='container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row'>
             <p className='text-gray-300 text-sm text-center sm:text-left'>
-              &copy; JobFinder —
+              &copy; JobSphere —
               <a
                 href='https://www.linkedin.com/in/ayush-sahu-47063322b'
                 className='text-[#1199e7] ml-1'

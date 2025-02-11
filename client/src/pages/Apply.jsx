@@ -36,18 +36,18 @@ const Apply = () => {
               data: formData,
               method: "POST",
             });
-            console.log(res);
-            if (res.status === "failed") {
-              setErrMsg({ ...res });
+            console.log("error",res);
+            if (res.status === false) {
+                setErrMsg({status:"failed",message: res.message});
             } else {
               setErrMsg({ status: "success", message: res.message });
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
+            //   setTimeout(() => {
+            //     window.location.reload();
+            //   }, 1500);
             }
             setIsLoading(false);
           } catch (error) {
-            console.log(error);
+            console.log("error2",error);
             setIsLoading(false);
           }
 
@@ -106,6 +106,11 @@ const Apply = () => {
                           containerStyles="mx-[40%] my-5 rounded-md border border-transparent bg-purple-600 px-8 py-2 text-sm font-medium text-white hover:bg-purple-200 hover:text-purple-500 focus:outline-none "
                           title={"Submit"}
                         />
+                        {errMsg && (
+                        <div role="alert" className={`text-sm  text-center ${errMsg.status === "success"?"text-green-600":"text-red-500"} mt-0.5`}>
+                        {errMsg.message}
+                        </div>
+            )}
                 </form>
             </div>
         </div>

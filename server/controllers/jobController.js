@@ -265,6 +265,17 @@ export const applyJob = async(req,res,next) => {
       return res.status(404).send(`No Job with id: ${jobId}`);
     }
 
+    const alreadyApplied = job.application.some(
+      (app) => app.email === email
+    );
+
+    if (alreadyApplied) {
+      return res.status(400).json({
+        success: false,
+        message: "You have already applied for this job.",
+      });
+    }
+
     const application = {
       name,
       email,
@@ -277,7 +288,7 @@ export const applyJob = async(req,res,next) => {
 
     res.status(200).json({
       success: true,
-      message: "Application Submitted",
+      message: "Application Submitted Successfully",
       application,
     });
   } catch (error) {
