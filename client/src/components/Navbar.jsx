@@ -9,6 +9,8 @@ import { CustomButton } from "../components/index";
 import { users } from "../utils/data";
 import { useSelector, useDispatch } from "react-redux";
 import { Logout } from "../redux/userSlice";
+import { emptyProfile } from "../utils";
+import { userProfile } from "../assets";
 
 function MenuList({ user, onClick }) {
   const dispatch = useDispatch();
@@ -16,6 +18,8 @@ function MenuList({ user, onClick }) {
     dispatch(Logout());
     window.location.replace("/");
   };
+  console.log(user?.profileUrl);
+  console.log(emptyProfile);
   return (
     <div>
       <Menu as="div" className="inline-block text-left">
@@ -31,7 +35,7 @@ function MenuList({ user, onClick }) {
             </div>
 
             <img
-              src={user?.profileUrl}
+              src={user?.profileUrl ?? userProfile}
               alt="user profile"
               className="w-10 h-10 rounded-full object-cover"
             />

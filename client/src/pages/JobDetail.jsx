@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Linkedin } from "../assets";
+import { Linkedin, userProfile } from "../assets";
 import moment from "moment";
 import { Link, useParams } from "react-router-dom";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
@@ -15,6 +15,7 @@ const JobDetail = () => {
   const [similarJobs, setSimilarJobs] = useState([]);
   const [selected, setSelected] = useState("0");
   const [isFetching, setIsFetching] = useState(false);
+  const [applied,setApplied] = useState(false);
 
   const getJobDetails = async () => {
     setIsFetching(true);
@@ -55,10 +56,22 @@ const JobDetail = () => {
     }
   };
 
+  const checkApply = async()=>{
+    const applicants = job?.application;
+    const isApplied = applicants.find(applicant=>applicant.email === user.email);
+    setApplied(isApplied);
+  }
+
   useEffect(() => {
     id && getJobDetails();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [id]);
+
+  useEffect(() => {
+    if (job) {
+        checkApply();
+    }
+}, [job]); 
 
   return (
     <div className="container mx-auto">
@@ -71,9 +84,9 @@ const JobDetail = () => {
             <div className="w-full flex items-center justify-between">
               <div className="w-3/4 flex gap-2">
                 <img
-                  src={job?.company?.profileUrl}
+                  src={job?.company?.profileUrl ?? userProfile}
                   alt={job?.company?.name}
-                  className="w-20 h-20 md:w-24 md:h-20 rounded"
+                  className="w-20 h-20 md:w-20 md:h-20 rounded"
                 />
 
                 <div className="flex flex-col">
@@ -187,13 +200,17 @@ const JobDetail = () => {
                   onClick={handleDeletePost}
                 />
               ) : (
-                // <CustomButton
-                //   title="Apply Now"
-                //   containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
-                // />
-                <Link to={`/apply-job/${job?._id}`} className="w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base">
-                  Apply Now
-                </Link>
+              
+                applied ? (
+                  <div className="w-full flex items-center justify-center text-white bg-gray-500 py-3 px-5 outline-none rounded-full text-base">
+                    Applied
+                  </div>
+                ) : (
+                  <Link to={`/apply-job/${job?._id}`} className="w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base">
+                    Apply Now
+                  </Link>
+                )
+               
               )}
             </div>
           </div>

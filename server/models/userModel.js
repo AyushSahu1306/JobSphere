@@ -33,6 +33,13 @@ const userSchema = new mongoose.Schema(
     cvUrl: { type: String },
     jobTitle: { type: String },
     about: { type: String },
+    applications: [
+      {
+        jobId: { type: mongoose.Schema.Types.ObjectId, ref: "Jobs" },
+        resumeUrl: String,
+        appliedAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

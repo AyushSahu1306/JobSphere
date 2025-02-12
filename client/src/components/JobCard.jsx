@@ -1,6 +1,7 @@
 import { GoLocation } from "react-icons/go";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { userProfile } from "../assets";
 
 const JobCard = ({ job }) => {
   return (
@@ -11,7 +12,7 @@ const JobCard = ({ job }) => {
       >
         <div className="w-full h-full flex flex-col justify-between">
           <div className="flex gap-3">
-            <img src={job?.logo} alt={job?.name} className="w-14 h-14" />
+            <img src={job?.logo ?? userProfile} alt={job?.name} className="w-14 h-14" />
 
             <div className="truncate w-full h-16 flex flex-col justify-center">
               <p className="w-full h-12 flex items-center text-lg font-semibold overflow-hidden leading-5">

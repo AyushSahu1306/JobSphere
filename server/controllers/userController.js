@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Users from "../models/userModel.js";
+import Jobs from "../models/jobsModel.js";
 
 export const updateUser = async (req, res, next) => {
   const {
@@ -85,3 +86,48 @@ export const getUser = async (req, res, next) => {
     });
   }
 };
+
+
+export const getUserApplications = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await Users.findById({ _id: id });
+    if (!user) {
+      return res.status(200).send({
+        message: "User not Found",
+        success: false,
+      });
+    }
+    const applications = user.applications;
+
+    const userApplications = await Promise.all(
+      applications.map(async (app) => {
+        const job = await Jobs.findById(app.jobId)
+        .populate("company","name profileUrl") // Fetch company name
+        .select("jobTitle company location"); 
+    
+        return {
+          ...app.toObject(), // Convert to plain object
+          jobTitle: job ? job.jobTitle : "Unknown Job",
+          company: job ? job.company.name : "Unknown Company",
+          companyProfileUrl: job ? job.company.profileUrl : "Unknown Profile",
+          location: job ? job.location : "Unknown Location",
+        };
+      })
+    );
+
+
+
+    res.status(200).json({
+      message: "User Applications",
+      success: true,
+      data: userApplications,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      message:error.message,
+    });
+  }
+}

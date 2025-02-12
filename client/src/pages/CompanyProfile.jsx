@@ -10,6 +10,7 @@ import { companies, jobs } from "../utils/data";
 import { CustomButton, JobCard, Loading, TextInput } from "../components";
 import { apiRequest, handleFileUpload } from "../utils";
 import { Login } from "../redux/userSlice";
+import { userProfile } from "../assets";
 
 const CompanyForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -265,7 +266,7 @@ const CompanyProfile = () => {
         <div className="flex justify-around py-10 px-64 h-[200px]">
 
         <div className="">
-          <img src={info?.profileUrl} className="w-full h-full "></img> 
+          <img src={info?.profileUrl ?? userProfile} className="w-full h-full "></img> 
           </div>
 
           <div className="w-[50%]  rounded-lg p-5 bg-purple-500 flex flex-col md:flex-row justify-start md:justify-between text-md ">
@@ -297,7 +298,15 @@ const CompanyProfile = () => {
 
       </div>
 
-      <div className="w-full mt-20 flex flex-col gap-2">
+      <div className="px-64 py-10">
+        <div className="shadow-md rounded-md p-5">
+        <p className="text-2xl  font-semibold ">About {info?.name}</p>
+        <p className="text-base mt-2">{info?.about}</p>
+        </div>
+       
+      </div>
+
+      <div className="w-full mt- flex flex-col gap-2">
         <p>Jobs Posted</p>
         <div className="flex flex-wrap gap-3">
           {info?.jobPosts?.map((job, index) => {

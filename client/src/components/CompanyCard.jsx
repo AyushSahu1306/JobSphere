@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { userProfile } from "../assets";
 
 const CompanyCard = ({ cmp }) => {
   return (
@@ -7,7 +8,7 @@ const CompanyCard = ({ cmp }) => {
       <div className="w-3/4 md:w-2/4 flex gap-4 items-center">
         <Link to={`/company-profile/${cmp?._id}`}>
           <img
-            src={cmp?.profileUrl}
+            src={cmp?.profileUrl ?? userProfile}
             alt={cmp?.name}
             className="w-8 md:w-12 h-12 md:h-13 rounded"
           />

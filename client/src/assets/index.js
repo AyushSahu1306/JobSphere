@@ -10,6 +10,7 @@ import Spotify from "./spotify.png";
 import Office from "./office.jpg";
 import JobImg from "./job.jpg";
 import Facebook from "./facebook.png";
+import userProfile from "./userprofile.png";
 
 export {
   NoProfile,
@@ -24,4 +25,5 @@ export {
   Youtube,
   Office,
   JobImg,
+  userProfile
 };

@@ -79,3 +79,5 @@ export const updateURL = ({
   navigate(newURL, { replace: true });
   return newURL;
 };
+
+export const emptyProfile = "https://icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";

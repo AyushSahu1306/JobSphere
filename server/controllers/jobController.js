@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Jobs from "../models/jobsModel.js";
+import Users from "../models/userModel.js";
 import Companies from "../models/companiesModel.js";
 
 export const createJob = async (req, res, next) => {
@@ -238,7 +239,16 @@ export const getJobById = async (req, res, next) => {
 export const deleteJob = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await Jobs.findByIdAndDelete(id);
+
+    const deletedJob = await Jobs.findByIdAndDelete(id);
+    if(!deleteJob){
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    await Companies.updateMany(
+      { jobPosts: id },  
+      { $pull: { jobPosts: id } } 
+    );
 
     res.status(200).send({
       success: true,
@@ -254,6 +264,7 @@ export const applyJob = async(req,res,next) => {
   try {
     const { jobId } = req.params;
     const { name, email, resume } = req.body;
+    const id = req.body.user.userId;
 
     if (!name || !email || !resume) {
       next("Please Provide All Required Fields");
@@ -263,6 +274,11 @@ export const applyJob = async(req,res,next) => {
     const job = await Jobs.findById(jobId);
     if (!job) {
       return res.status(404).send(`No Job with id: ${jobId}`);
+    }
+
+    const user = await Users.findById({_id: id });
+    if (!user) {
+      return res.status(404).json({success: false, message: "User not found." });
     }
 
     const alreadyApplied = job.application.some(
@@ -285,6 +301,9 @@ export const applyJob = async(req,res,next) => {
 
     job.application.push(application);
     await job.save();
+
+    user.applications.push({ jobId, resumeUrl: resume });
+    await user.save();
 
     res.status(200).json({
       success: true,
