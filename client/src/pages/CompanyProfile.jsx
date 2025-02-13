@@ -59,10 +59,12 @@ const CompanyForm = ({ open, setOpen }) => {
 
         setTimeout(() => {
           window.location.reload();
-        }, 1500);
+        }, 2000);
         // closeModal();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message)
+    }
   };
   
   const closeModal = () => setOpen(false);
@@ -299,7 +301,7 @@ const CompanyProfile = () => {
       </div>
 
       <div className="px-64 py-10">
-        <div className="shadow-md rounded-md p-5">
+        <div className="shadow-md bg-gray-100 rounded-md p-5">
         <p className="text-2xl  font-semibold ">About {info?.name}</p>
         <p className="text-base mt-2">{info?.about}</p>
         </div>

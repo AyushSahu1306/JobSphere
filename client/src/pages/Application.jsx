@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { apiRequest } from "../utils";
+import { apiRequest, emptyProfile } from "../utils";
 import { useSelector } from "react-redux";
 import { Loading } from "../components";
 import { useNavigate } from "react-router-dom";
-
+import { userProfile } from "../assets";
 const Application = () => {
     const {user} = useSelector(state => state.user);
     const [applications,setApplications] = useState([]);
@@ -50,7 +50,7 @@ const Application = () => {
             <li key={app._id} className="p-4 bg-white shadow-md rounded-lg border">
             <div className="flex justify-between ">
                 <div>
-                    <img src={app.companyProfileUrl} alt={app.company} className="w-12 h-12" />
+                    <img src={app?.companyProfileUrl ?? userProfile} alt={app.company} className="w-12 h-12" />
                     <p className="text-black">{app.company}</p>
                 </div>
                 <div>

@@ -52,12 +52,14 @@ const UserForm = ({ open, setOpen }) => {
         
         setTimeout(() => {
           window.location.reload();
-        }, 1500);
+        }, 2000);
 
+        // closeModal();
       }
+
       // setIsSubmitting(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
     finally{
       setIsSubmitting(false);
@@ -305,7 +307,7 @@ const UserProfile = () => {
                   </a>
                   </div>
                 : 
-                  <div className="flex justify-center items-center h-screen">
+                  <div className="flex justify-center items-center ">
                     <p className="text-2xl text-red-500">No Resume Found</p>
                   </div>
               }

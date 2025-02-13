@@ -15,6 +15,7 @@ const FindJobs = () => {
   const [numPage, setNumPage] = useState(1);
   const [recordCount, setRecordCount] = useState(0);
   const [data, setData] = useState([]);
+  const [fullData, setFullData] = useState([]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [jobLocation, setJobLocation] = useState("");
@@ -48,7 +49,8 @@ const FindJobs = () => {
       setNumPage(res?.numOfPage);
       setRecordCount(res?.totalJobs);
       setData(res?.data);
-
+      setFullData(res?.data);
+      // console.log("data", res?.data);
       setIsFetching(false);
     } catch (error) {}
   };
@@ -81,14 +83,18 @@ const FindJobs = () => {
 
   useEffect(() => {
     if (expVal.length > 0) {
-      let newExpVal = [];
 
-      expVal?.map((el) => {
-        const newEl = el?.split("-");
-        newExpVal.push(Number(newEl[0]), Number(newEl[1]));
+      const filteredJobs = fullData.filter(job => {
+        return expVal.some(range => {
+          const [min, max] = range.split("-").map(Number);
+          console.log(min,max);
+          return job.experience >= min && job.experience <= max;
+        });
       });
-      newExpVal?.sort((a, b) => a - b);
-      setFilterExp(`${newExpVal[0]} - ${newExpVal[newExpVal?.length - 1]}`);
+      setData(filteredJobs);
+    }
+    else {
+      setData(fullData);
     }
   }, [expVal]);
 

@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { IoMdDocument } from "react-icons/io";
 import { CustomButton } from "../components";
 import { apiRequest } from "../utils";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
+
 const Apply = () => {
     const {user} = useSelector((state) => state.user);
     // console.log(user);
@@ -17,6 +18,7 @@ const Apply = () => {
         resume: user?.cvUrl || null,
     });
 
+    const navigate = useNavigate();
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,9 +43,10 @@ const Apply = () => {
                 setErrMsg({status:"failed",message: res.message});
             } else {
               setErrMsg({ status: "success", message: res.message });
-            //   setTimeout(() => {
-            //     window.location.reload();
-            //   }, 1500);
+              setTimeout(() => {
+                // window.location.reload();
+                navigate("/job-detail/"+jobId);
+              }, 2000);
             }
             setIsLoading(false);
           } catch (error) {

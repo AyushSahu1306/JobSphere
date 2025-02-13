@@ -206,7 +206,7 @@ const JobDetail = () => {
                     Applied
                   </div>
                 ) : (
-                  <Link to={`/apply-job/${job?._id}`} className="w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base">
+                  user.accountType==="seeker" && <Link to={`/apply-job/${job?._id}`} className="w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base">
                     Apply Now
                   </Link>
                 )

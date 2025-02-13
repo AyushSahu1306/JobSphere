@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import Users from "../models/userModel.js";
 import Jobs from "../models/jobsModel.js";
+import { emptyProfile } from "../../client/src/utils/index.js";
 
 export const updateUser = async (req, res, next) => {
   const {
@@ -22,7 +23,6 @@ export const updateUser = async (req, res, next) => {
       !email ||
       !contact ||
       !location ||
-      !profileUrl ||
       !jobTitle ||
       !about
     ) {
