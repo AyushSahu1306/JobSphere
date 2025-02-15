@@ -53,14 +53,14 @@ const Companies = () => {
 
   return (
     <div className="w-full">
-      <Header
+      {/* <Header
         title="Find Your Dream Company"
         handleClick={handleSearchSubmit}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         location={cmpLocation}
         setLocation={setCmpLocation}
-      />
+      /> */}
 
       <div className="container mx-auto flex flex-col gap-5 2xl:gap-10 px-5 py-6 bg-[#f7fdfd]">
         <div className="flex items-center justify-between mb-4">
@@ -69,11 +69,11 @@ const Companies = () => {
             Companies Available
           </p>
 
-          <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
+          {/* <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
             <p className="text-sm md:text-base">Sort By:</p>
 
             <ListBox sort={sort} setSort={setSort} />
-          </div>
+          </div> */}
         </div>
 
         <div className="w-full flex flex-col gap-6">

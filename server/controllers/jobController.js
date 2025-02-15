@@ -317,3 +317,23 @@ export const applyJob = async(req,res,next) => {
   // console.log("Apply Job",req);
 
 }
+
+export const getApplicants = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const job = await Jobs.findById(id);
+    if (!job) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    const applicants = job.application;
+    res.status(200).json({
+      success: true,
+      message: "Applicants retrieved successfully",
+      data: applicants,
+    });
+  } catch (error) {
+    console.error("Error fetching applicants:", error);
+    res.status(500).json({ success: false, message: error.message});
+  }
+}

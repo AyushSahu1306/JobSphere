@@ -10,7 +10,7 @@ import JobCard from "./JobCard";
 import Loading from "./Loading";
 import CompanyCard from "./CompanyCard";
 import JobTypes from "./JobTypes";
-
+import Applicants from "./Applicants";
 export {
   Navbar,
   Footer,
@@ -23,4 +23,5 @@ export {
   Loading,
   CompanyCard,
   JobTypes,
+  Applicants,
 };

@@ -4,7 +4,7 @@ import moment from "moment";
 import { Link, useParams } from "react-router-dom";
 import { AiOutlineSafetyCertificate } from "react-icons/ai";
 import { jobs } from "../utils/data";
-import { CustomButton, JobCard, Loading } from "../components";
+import { Applicants, CustomButton, JobCard, Loading } from "../components";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
 
@@ -28,7 +28,7 @@ const JobDetail = () => {
       setJob(res?.data);
       setSimilarJobs(res?.similarJobs);
       setIsFetching(false);
-      console.log(res?.data);
+      console.log("hello",res?.data);
     } catch (error) {
       setIsFetching(false);
       console.log(error);
@@ -75,12 +75,12 @@ const JobDetail = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="w-full flex flex-col md:flex-row gap-10">
+      <div className="w-full flex flex-col md:flex-row gap-10 pl-3">
         {/* LEFT SIDE */}
         {isFetching ? (
           <Loading />
         ) : (
-          <div className="w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md">
+          <div className="w-full h-fit md:w-[60%] 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md">
             <div className="w-full flex items-center justify-between">
               <div className="w-3/4 flex gap-2">
                 <img
@@ -217,20 +217,24 @@ const JobDetail = () => {
         )}
 
         {/* RIGHT SIDE */}
-        <div className="w-full md:w-1/4 2xl:w-2/4 p-5 mt-20 md:mt-0">
-          <p className="text-gray-500 font-semibold">Similar Job Posts</p>
 
-          <div className="w-full flex flex-wrap gap-4">
-            {similarJobs?.slice(0, 4).map((job, index) => {
-              const data = {
-                name: job?.company.name,
-                logo: job?.company.profileUrl,
-                ...job,
-              };
-              return <JobCard job={data} key={index} />;
-            })}
+       { user?.accountType!=="seeker" && job?.company?._id=== user._id ?
+       <Applicants/> : 
+          <div className="w-full md:w-1/4 2xl:w-2/4 p-5 mt-20 md:mt-0">
+            <p className="text-gray-500 font-semibold">Similar Job Posts</p>
+
+            <div className="w-full flex flex-wrap gap-4">
+              {similarJobs?.slice(0, 4).map((job, index) => {
+                const data = {
+                  name: job?.company.name,
+                  logo: job?.company.profileUrl,
+                  ...job,
+                };
+                return <JobCard job={data} key={index} />;
+              })}
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   );
